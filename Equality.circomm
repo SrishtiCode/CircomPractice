@@ -1,0 +1,27 @@
+pragma circom 2.1.4;
+
+template iszero(){
+  signal input in;
+  signal input out;
+  signal inv;
+
+  inv = 1/in;
+  out = 1 - in * inv;
+  in * out === 0;
+}
+
+template Equality(){
+  signal input a[3];
+  signal output c;
+
+  component eq1 = iszero();
+  component eq2 = iszero();
+
+  eq1.in <== a[0] - a[1];
+  eq2.in <== a[1] - a[2];
+
+  c <== eq1.out * eq2.out;
+  
+}
+
+component main = Equality();
